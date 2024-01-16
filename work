@@ -5,6 +5,7 @@ filename="$HOME/.work"
 function usage() {
   echo "Usage: $0 <command>"
   echo "Commands:"
+  echo "  activity - register activity on a project"
   echo "  project - create a new project"
   echo "  help - show this help"
 }
@@ -12,6 +13,16 @@ function usage() {
 day=$(date "+%Y-%m-%d")
 
 case $1 in
+  activity)
+    project=$("$0" list | fzf)
+    if [ -z "$project" ]; then
+      echo "No project selected"
+      exit 1
+    fi
+
+    read -r -p "Activity: " activity
+    echo "$day	activity	$project	$activity" >> "$filename"
+    ;;
   project)
     read -r -p "Project name: " project_name
     echo "$day	project	$project_name" >> "$filename"
