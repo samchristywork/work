@@ -5,9 +5,17 @@ filename="$HOME/.work"
 function usage() {
   echo "Usage: $0 <command>"
   echo "Commands:"
+  echo "  project - create a new project"
+  echo "  help - show this help"
 }
 
+day=$(date "+%Y-%m-%d")
+
 case $1 in
+  project)
+    read -r -p "Project name: " project_name
+    echo "$day	project	$project_name" >> "$filename"
+    ;;
   *)
     echo "Unknown command: $1"
     usage
