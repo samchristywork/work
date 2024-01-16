@@ -1,0 +1,15 @@
+#!/bin/bash
+
+filename="$HOME/.work"
+
+function usage() {
+  echo "Usage: $0 <command>"
+  echo "Commands:"
+}
+
+case $1 in
+  *)
+    echo "Unknown command: $1"
+    usage
+    exit 1
+esac
