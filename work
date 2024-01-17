@@ -10,6 +10,7 @@ function usage() {
   echo "  list - list all projects"
   echo "  today - show all activity for today"
   echo "  yesterday - show all activity for yesterday"
+  echo "  summary - show a summary of all projects"
   echo "  help - show this help"
 }
 
@@ -40,6 +41,15 @@ case $1 in
     today=$(date -d "$day" +%s)
     yesterday=$(date -d "@$((today - 86400))" "+%Y-%m-%d")
     awk -F '\t' '$1 == "'"$yesterday"'"' "$filename"
+    ;;
+  summary)
+    (
+    echo "Project	Last Updated"
+    "$0" list | while read -r project; do
+      last_updated=$(awk -F '\t' '/activity	'"$project"'	/{print $1}' "$filename" | sort | tail -n 1)
+      echo "$project	$last_updated"
+    done
+    ) | column -t -s $'\t'
     ;;
   *)
     echo "Unknown command: $1"
