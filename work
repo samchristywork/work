@@ -7,6 +7,7 @@ function usage() {
   echo "Commands:"
   echo "  activity - register activity on a project"
   echo "  project - create a new project"
+  echo "  list - list all projects"
   echo "  help - show this help"
 }
 
@@ -26,6 +27,9 @@ case $1 in
   project)
     read -r -p "Project name: " project_name
     echo "$day	project	$project_name" >> "$filename"
+    ;;
+  list)
+    awk -F '\t' '/\tproject\t/{print $3}' "$filename" | sort | uniq
     ;;
   *)
     echo "Unknown command: $1"
