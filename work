@@ -11,6 +11,7 @@ function usage() {
   echo "  today - show all activity for today"
   echo "  yesterday - show all activity for yesterday"
   echo "  summary - show a summary of all projects"
+  echo "  edit - edit the work file"
   echo "  help - show this help"
 }
 
@@ -50,6 +51,12 @@ case $1 in
       echo "$project	$last_updated"
     done
     ) | column -t -s $'\t'
+    ;;
+  edit)
+    $EDITOR "$filename"
+    ;;
+  "")
+    "$0" activity
     ;;
   *)
     echo "Unknown command: $1"
