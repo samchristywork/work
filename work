@@ -8,6 +8,8 @@ function usage() {
   echo "  activity - register activity on a project"
   echo "  project - create a new project"
   echo "  list - list all projects"
+  echo "  today - show all activity for today"
+  echo "  yesterday - show all activity for yesterday"
   echo "  help - show this help"
 }
 
@@ -30,6 +32,14 @@ case $1 in
     ;;
   list)
     awk -F '\t' '/\tproject\t/{print $3}' "$filename" | sort | uniq
+    ;;
+  today)
+    awk -F '\t' '$1 == "'"$day"'"' "$filename"
+    ;;
+  yesterday)
+    today=$(date -d "$day" +%s)
+    yesterday=$(date -d "@$((today - 86400))" "+%Y-%m-%d")
+    awk -F '\t' '$1 == "'"$yesterday"'"' "$filename"
     ;;
   *)
     echo "Unknown command: $1"
